@@ -1,0 +1,43 @@
+{
+  "name": "botwatch",
+  "version": "1.0.0",
+  "description": "Watches bots",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "moo"
+  },
+  "keywords": [
+    "slack",
+    "bots"
+  ],
+  "author": "Joseph W Becher <jwbecher@drazisil.com> (drazisil)",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "botkit": "^0.4.3",
+    "express": "^4.14.0",
+    "oauth": "^0.9.14",
+    "tumblr.js": "^1.1.1"
+  },
+  "devDependencies": {
+    "coveralls": "^2.11.15",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0",
+    "mocha-lcov-reporter": "^1.2.0",
+    "mocha-multi": "^0.9.1",
+    "standard": "^8.6.0"
+  },
+  "standard": {
+    "globals": [
+      "describe",
+      "it"
+    ],
+    "ignore": [
+      "public/assets/*"
+    ]
+  }
+}
