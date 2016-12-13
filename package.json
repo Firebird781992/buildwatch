@@ -4,7 +4,7 @@
   "description": "Watches bots",
   "main": "index.js",
   "scripts": {
-    "test": "standard && nyc --all --reporter=html --reporter=text mocha",
+    "test": "standard --verbose && nyc --all --reporter=html --reporter=text mocha",
     "coverage": "nyc report --all --reporter=text-lcov | coveralls"
   },
   "repository": {
@@ -33,6 +33,7 @@
     "mocha": "^3.2.0",
     "mocha-lcov-reporter": "^1.2.0",
     "mocha-multi": "^0.9.1",
+    "nock": "^9.0.2",
     "nyc": "^10.0.0",
     "standard": "^8.6.0"
   },

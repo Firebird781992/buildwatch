@@ -14,7 +14,13 @@ https://api.slack.com/methods/users.list
 function getUserListFromSlack (config, callback) {
   request('https://slack.com/api/users.list?token=' + config.bot_token, function (error, response, body) {
     if (!error && response.statusCode === 200) {
-      callback(null, JSON.parse(body))
+      var users = []
+      JSON.parse(body).members.forEach(function (element) {
+        if (element.profile.email) {
+          users.push({'id': element.id, 'email': element.profile.email})
+        }
+      })
+      callback(null, users)
     }
   })
 }
@@ -25,7 +31,13 @@ https://api.slack.com/methods/channels.list
 function getChannelListFromSlack (config, callback) {
   request('https://slack.com/api/channels.list?token=' + config.bot_token, function (error, response, body) {
     if (!error && response.statusCode === 200) {
-      callback(null, JSON.parse(body))
+      var channels = []
+      JSON.parse(body).channels.forEach(function (element) {
+        if (element.is_channel && element.is_member) {
+          channels.push({'id': element.id, 'name': element.name})
+        }
+      })
+      callback(null, channels)
     }
   })
 }
@@ -45,7 +57,7 @@ function init (config) {
     if (err) {
       throw err
     }
-    userList = res.members
+    userList = res
     console.dir(userList)
   })
 
@@ -53,11 +65,11 @@ function init (config) {
     if (err) {
       throw err
     }
-    channelList = res.channels
+    channelList = res
     console.dir(channelList)
   })
 
-  db.dbUsers.clode()
+  db.dbUsers.close()
   db.dbChannels.close()
 
   controller.hears(['shutdown'], 'direct_message,direct_mention,mention', function (bot, message) {
@@ -91,11 +103,10 @@ function init (config) {
   })
 }
 
-function processPayload (payload) {
-  payload = payload.payload
-  var message = payload
+function sendDM (committerEmail, callback) {
+  var message = committerEmail
   switch (true) {
-    case JSON.stringify(payload.author_email).includes('drazisil') !== 0:
+    case JSON.stringify(committerEmail).includes('drazisil') !== 0:
       return bot.startPrivateConversation(
         {
           text: '^ @drazisil Yikes, a bot!',
@@ -122,5 +133,7 @@ function processPayload (payload) {
 
 module.exports = {
   init: init,
-  processPayload: processPayload
+  getUserListFromSlack: getUserListFromSlack,
+  getChannelListFromSlack: getChannelListFromSlack,
+  sendDM: sendDM
 }

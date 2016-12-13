@@ -1,3 +1,4 @@
+const db = require('./db.js') // eslint-disable-line no-unused-vars
 const slack = require('./slack.js')
 
 function init (config) {
