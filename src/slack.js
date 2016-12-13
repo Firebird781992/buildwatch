@@ -1,7 +1,9 @@
-var https = require('https')
 var request = require('request')
 var Botkit = require('botkit')
 var controller = Botkit.slackbot()
+
+var db = require('./db.js')
+
 var bot
 var userList
 var channelList
@@ -55,6 +57,9 @@ function init (config) {
     console.dir(channelList)
   })
 
+  db.dbUsers.clode()
+  db.dbChannels.close()
+
   controller.hears(['shutdown'], 'direct_message,direct_mention,mention', function (bot, message) {
     console.dir(message)
 
@@ -88,13 +93,17 @@ function init (config) {
 
 function processPayload (payload) {
   payload = payload.payload
+  var message = payload
   switch (true) {
-    case JSON.stringify(payload.author_email).includes('drazisil') != 0:
+    case JSON.stringify(payload.author_email).includes('drazisil') !== 0:
       return bot.startPrivateConversation(
         {
           text: '^ @drazisil Yikes, a bot!',
           user: '' // drazisil
         }, function (err, convo) {
+        if (err) {
+          throw err
+        }
         convo.say('You were mentioned in <#' + message.channel + '>!')
       })
     default:
@@ -103,6 +112,9 @@ function processPayload (payload) {
           text: '^ @drazisil Yikes, a bot!',
           user: '' // drazisil
         }, function (err, convo) {
+        if (err) {
+          throw err
+        }
         convo.say('You were mentioned in <#' + message.channel + '>!')
       })
   }
