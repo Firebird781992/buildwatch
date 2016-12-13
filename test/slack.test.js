@@ -1,61 +1,56 @@
 var assert = require('assert')
-var nock = require('nock')
 var slack = require('../src/slack.js')
-
-var config = {
-  bot_token: 'xxx'
-}
-
-var slackAPIUserList = nock('https://slack.com') // eslint-disable-line no-unused-vars
-                .get('/api/users.list?token=xxx')
-                .reply(200, {
-                  'members': [{
-                    'id': '123ABC',
-                    'profile': {
-                      'email': 'pedro.teixeira@gmail.com'
-                    }
-                  }]
-                })
-
-var slackAPIChannelList = nock('https://slack.com') // eslint-disable-line no-unused-vars
-                .get('/api/channels.list?token=xxx')
-                .reply(200, {
-                  'channels': [
-                    {
-                      'id': 'xxx',
-                      'name': 'channel 1',
-                      'is_channel': true,
-                      'is_member': true
-                    },
-                    {
-                      'id': 'yyy',
-                      'name': 'channel 2',
-                      'is_channel': true,
-                      'is_member': true
-                    }
-                  ]
-                })
+require('./fixtures/slack.fixture.js')
+var config = {}
 
 describe('Slack interactions', function () {
-  describe('userList', function () {
-    it('should return 1 result', function (done) {
+  describe('Get userList from Slack', function () {
+    it('should succeed in fetching one result', function (done) {
+      config.bot_token = 'xxx'
       slack.getUserListFromSlack(config, function (err, res) {
         if (err) {
           throw err
+        } else {
+          assert.equal(1, res.length)
         }
-        assert.equal(1, res.length)
+        done()
+      })
+    })
+
+    it('should return an error', function (done) {
+      config.bot_token = 'yyy'
+      slack.getUserListFromSlack(config, function (err, res) {
+        if (err) {
+          assert.equal('I broke', err)
+        } else {
+          throw new Error('Returned ' + res)
+        }
         done()
       })
     })
   })
 
-  describe('channelList', function () {
-    it('should return 2 result', function (done) {
+  describe('Get channelList from Slack', function () {
+    it('should succeed in fetching two results', function (done) {
+      config.bot_token = 'xxx'
       slack.getChannelListFromSlack(config, function (err, res) {
         if (err) {
           throw err
+        } else {
+          assert.equal(2, res.length)
         }
-        assert.equal(2, res.length)
+        done()
+      })
+    })
+
+    it('should return an error', function (done) {
+      config.bot_token = 'yyy'
+      slack.getChannelListFromSlack(config, function (err, res) {
+        if (err) {
+          assert.equal('I broke', err)
+        } else {
+          throw new Error('Returned ' + res)
+        }
         done()
       })
     })

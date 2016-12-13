@@ -15,12 +15,17 @@ function getUserListFromSlack (config, callback) {
   request('https://slack.com/api/users.list?token=' + config.bot_token, function (error, response, body) {
     if (!error && response.statusCode === 200) {
       var users = []
-      JSON.parse(body).members.forEach(function (element) {
-        if (element.profile.email) {
-          users.push({'id': element.id, 'email': element.profile.email})
-        }
-      })
-      callback(null, users)
+      body = JSON.parse(body)
+      if (body.ok === false) {
+        callback(body.error)
+      } else {
+        body.members.forEach(function (element) {
+          if (element.profile.email) {
+            users.push({'id': element.id, 'email': element.profile.email})
+          }
+        })
+        callback(null, users)
+      }
     }
   })
 }
@@ -32,12 +37,17 @@ function getChannelListFromSlack (config, callback) {
   request('https://slack.com/api/channels.list?token=' + config.bot_token, function (error, response, body) {
     if (!error && response.statusCode === 200) {
       var channels = []
-      JSON.parse(body).channels.forEach(function (element) {
-        if (element.is_channel && element.is_member) {
-          channels.push({'id': element.id, 'name': element.name})
-        }
-      })
-      callback(null, channels)
+      body = JSON.parse(body)
+      if (body.ok === false) {
+        callback(body.error)
+      } else {
+        body.channels.forEach(function (element) {
+          if (element.is_channel && element.is_member) {
+            channels.push({'id': element.id, 'name': element.name})
+          }
+        })
+        callback(null, channels)
+      }
     }
   })
 }
