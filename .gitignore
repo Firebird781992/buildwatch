@@ -41,3 +41,5 @@ config.json
 
 db/users.db
 db/channels.db
+
+test-results.xml
