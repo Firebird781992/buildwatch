@@ -57,6 +57,9 @@ function init (config) {
     token: config.bot_token
   })
 
+  console.log(db.dbUsers)
+  console.log(db.dbChannels)
+
   bot.startRTM(function (err, bot, payload) {
     if (err) {
       throw new Error('Could not connect to Slack')
@@ -79,8 +82,7 @@ function init (config) {
     console.dir(channelList)
   })
 
-  db.dbUsers.close()
-  db.dbChannels.close()
+  db.dbUsers.run('CREATE TABLE IF NOT EXISTS comments (org TEXT, repository TEXT, id INTEGER, creator TEXT, updated_date TEXT, html_url TEXT, issue_url TEXT, PRIMARY KEY(id))')
 
   controller.hears(['shutdown'], 'direct_message,direct_mention,mention', function (bot, message) {
     console.dir(message)
