@@ -1,4 +1,4 @@
-var config = require('./config.json')
+var config = require('./config/buildwatch.json')
 var express = require('express')
 var http = require('http')
 var bodyParser = require('body-parser')
@@ -10,7 +10,7 @@ var app = express()
 app.use(bodyParser.json()) // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })) // support encoded bodies
 
-app.set('port', process.env.PORT || 3000)
+app.set('port', 3000)
 
 app.post('/hooks/circleci', function (req, res) {
   // console.dir(req.body)

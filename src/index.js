@@ -1,7 +1,9 @@
 const slack = require('./slack.js')
 
 function init (config) {
-  slack.init(config)
+  if (config.bot_token) {
+    slack.init(config)
+  }
 }
 
 module.exports = {

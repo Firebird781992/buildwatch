@@ -1,7 +1,7 @@
 {
-  "name": "botwatch",
+  "name": "buildwatch",
   "version": "1.0.0",
-  "description": "Watches bots",
+  "description": "Watches builds",
   "main": "index.js",
   "scripts": {
     "test": "standard --verbose && nyc --all --reporter=html --reporter=text mocha --reporter mocha-junit-reporter --reporter spec --reporter mocha-junit-reporter",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "moo"
+    "url": "https://github.com/drazisil/buildwatch.git"
   },
   "keywords": [
     "slack",
