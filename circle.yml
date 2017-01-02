@@ -7,9 +7,18 @@ machine:
   services:
     - docker
 
-test:
+dependencies:
+  cache_directories:
+    - "~/docker"
+
   pre:
-    - docker build -t buildwatch --rm=false .
+    - apt-get update && apt-get install sqlite3
+    - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
+  post:
+    - docker build --rm=false -t buildwatch .
+    - mkdir -p ~/docker; docker save buildwatch > ~/docker/image.tar
+
+test:
   post:
     - npm run coverage
     - mkdir $CIRCLE_TEST_REPORTS/junit && cp test-results.xml $CIRCLE_TEST_REPORTS/junit/test-results.xml
