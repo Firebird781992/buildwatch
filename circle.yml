@@ -1,7 +1,9 @@
 machine:
   ruby:
     version: 2.3.3
-    
+  node:
+    version: v6.9.2
+
   services:
     - docker
 
