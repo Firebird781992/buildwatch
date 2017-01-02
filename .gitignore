@@ -43,3 +43,4 @@ db/channels.db
 
 test-results.xml
 nohup.out
+tmp

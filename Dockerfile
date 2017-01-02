@@ -21,4 +21,4 @@ EXPOSE 3000
 EXPOSE 3001
 
 # Launch servers
-CMD ["bash", "-c", "./server_start.sh"] 
+CMD ["./server_start.sh"] 
