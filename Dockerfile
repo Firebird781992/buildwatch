@@ -1,19 +1,24 @@
-FROM node:6.9.2
+FROM ruby:2.3.3
 
-RUN apt-get update
-RUN apt-get -y install sqlite3 libsqlite3-dev
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash
+RUN apt-get install -y nodejs
 
-RUN mkdir /var/buildwatch
-WORKDIR "/var/buildwatch/"
+RUN mkdir /buildwatch
+WORKDIR /buildwatch
 
-# Install app dependencies
-COPY package.json /var/buildwatch/
+COPY Gemfile /buildwatch/Gemfile
+
+COPY package.json /buildwatch/package.json
+
+RUN gem install bundler
+RUN bundle install
 RUN npm install
+COPY . /buildwatch
 
-COPY . /var/buildwatch
+# Expose ports
+EXPOSE 3000
+EXPOSE 3001
 
-RUN users
-
-
-RUN npm install
-CMD ["npm", "start"] 
+# Launch servers
+CMD ["bash", "-c", "./server_start.sh"] 

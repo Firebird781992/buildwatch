@@ -12,6 +12,10 @@ app.use(bodyParser.urlencoded({ extended: true })) // support encoded bodies
 
 app.set('port', 3000)
 
+app.get('/', function (req, res) {
+  res.send('Ok')
+})
+
 app.post('/hooks/circleci', function (req, res) {
   // console.dir(req.body)
   buildBot.processPayload(req.body)

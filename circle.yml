@@ -1,4 +1,13 @@
+machine:
+  ruby:
+    version: 2.3.3
+    
+  services:
+    - docker
+
 test:
+  pre:
+    - docker build -t buildwatch .
   post:
     - npm run coverage
     - mkdir $CIRCLE_TEST_REPORTS/junit && cp test-results.xml $CIRCLE_TEST_REPORTS/junit/test-results.xml
