@@ -44,7 +44,8 @@
       "it"
     ],
     "ignore": [
-      "public/assets/*"
+      "public/assets/*",
+      "app/assets/*"
     ]
   },
   "nyc": {

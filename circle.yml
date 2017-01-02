@@ -9,7 +9,7 @@ machine:
 
 test:
   pre:
-    - docker build -t buildwatch .
+    - docker build -t buildwatch --rm=false .
   post:
     - npm run coverage
     - mkdir $CIRCLE_TEST_REPORTS/junit && cp test-results.xml $CIRCLE_TEST_REPORTS/junit/test-results.xml
