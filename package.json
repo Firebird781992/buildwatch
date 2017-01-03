@@ -52,7 +52,9 @@
     "exclude": [
       "coverage/*",
       "src/index.js",
-      "server.js"
+      "server.js",
+      "app/*",
+      "vendor/*"
     ]
   }
 }
