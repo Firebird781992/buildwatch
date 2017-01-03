@@ -15,6 +15,7 @@ dependencies:
     - sudo apt-get update && sudo apt-get install sqlite3 libsqlite3-dev
     - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
   post:
+    - npm install sqlite3
     - docker build --rm=false -t buildwatch .
     - mkdir -p ~/docker; docker save buildwatch > ~/docker/image.tar
 
