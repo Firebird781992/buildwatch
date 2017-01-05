@@ -1,0 +1,19 @@
+FROM ruby:2.3.3
+MAINTAINER Joseph W Becher <jwbecher@drazisil.com>
+
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev sqlite3 git sudo
+SHELL ["/bin/bash", "-c"]
+
+RUN git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+RUN git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+RUN echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bash_profile
+RUN echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash
+RUN apt-get install -y nodejs
+
+RUN touch ~/.bash_profile
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.0/install.sh | bash
+RUN echo "source ~/.bashrc" >> ~/.bash_profile
+
+EXPOSE 3000

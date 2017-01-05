@@ -1,25 +1,51 @@
-machine:
-  ruby:
-    version: 2.3.3
-  node:
-    version: v6.9.2
+version: 2
+executorType: docker
 
-  services:
-    - docker
+containerInfo:
+  - image: drazisil/ruby-node:1.0.8
 
-dependencies:
-  cache_directories:
-    - "~/docker"
+stages:
+  build:
+    workDir: /home/ubuntu/buildwatch
+    steps:
+      - type: checkout
+      - type: shell
+        command: npm install
+      - type: shell
+        command: npm install sqlite3
+      - type: shell
+        name: Install Docker Engine
+        command: |
+          echo "test"
+          curl -L -o /tmp/docker.tgz https://get.docker.com/builds/Linux/x86_64/docker-1.12.3.tgz
+          tar -xz -C /tmp -f /tmp/docker.tgz
+          mv /tmp/docker/docker* /usr/bin/
 
-  pre:
-    - sudo apt-get update && sudo apt-get install sqlite3 libsqlite3-dev
-    - if [[ -e ~/docker/image.tar ]]; then docker load -i ~/docker/image.tar; fi
-  post:
-    - npm install sqlite3
-    - docker build --rm=false -t buildwatch .
-    - mkdir -p ~/docker; docker save buildwatch > ~/docker/image.tar
+          curl -L "https://github.com/docker/compose/releases/download/1.9.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/bin/docker-compose
+          chmod +x  /usr/bin/docker-compose
 
-test:
-  post:
-    - npm run coverage
-    - mkdir $CIRCLE_TEST_REPORTS/junit && cp test-results.xml $CIRCLE_TEST_REPORTS/junit/test-results.xml
+      - type: setup-docker-engine
+      - type: shell
+        name: Verify Docker Works
+        command: |
+          docker --version
+          docker run ubuntu /bin/echo "Hello world"
+      - type: shell
+        command: docker build --rm=false -t buildwatch .
+      - type: shell
+        command: npm test
+      - type: shell
+        command: npm run coverage
+      - type: shell
+        command: mkdir -p /tmp/test-results/junit && cp test-results.xml /tmp/test-results/junit/test-results.xml
+
+      # Save artifacts
+      - type: shell
+        command: mkdir -p /tmp/artifacts && cp test-results.xml /tmp/artifacts/test-results.xml
+      - type: artifacts-store
+        path: /tmp/artifacts
+        destination: build
+
+      # Upload test results
+      - type: test-results-store
+        path: /tmp/test-results/
