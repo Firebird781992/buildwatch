@@ -1,3 +1,4 @@
 {
-  "setup_complete": false
+  "setup_complete": false,
+  "web_port": 3000
 }
