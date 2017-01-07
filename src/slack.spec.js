@@ -1,6 +1,6 @@
 var assert = require('assert')
 var slack = require('../src/slack.js')
-require('./fixtures/slack.fixture.js')
+require('../test/fixtures/slack.fixture.js')
 var config = {}
 
 describe('Slack interactions', function () {

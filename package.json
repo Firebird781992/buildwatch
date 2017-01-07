@@ -4,7 +4,7 @@
   "description": "Watches builds",
   "main": "index.js",
   "scripts": {
-    "test": "standard --verbose && mocha && nyc --all --reporter=html --reporter=text mocha --reporter mocha-junit-reporter --reporter spec --reporter mocha-junit-reporter",
+    "test": "standard --verbose && mocha src/**/*.spec.js && nyc --all --reporter=html --reporter=text mocha src/**/*.spec.js --reporter mocha-junit-reporter --reporter spec --reporter mocha-junit-reporter",
     "coverage": "nyc report --all --reporter=text-lcov | coveralls"
   },
   "repository": {
@@ -56,7 +56,8 @@
       "server.js",
       "test/*",
       "app/*",
-      "vendor/*"
+      "vendor/*",
+      "node-coverage/*"
     ],
     "report-dir": "./node-coverage"
   }
