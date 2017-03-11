@@ -39,7 +39,7 @@
     "mocha-junit-reporter": "^1.12.1",
     "mocha-lcov-reporter": "^1.2.0",
     "mocha-multi": "^0.10.0",
-    "nightwatch": "^0.9.12",
+    "nightwatch": "^0.9.13",
     "nock": "^9.0.2",
     "nyc": "^10.0.0",
     "standard": "^8.6.0"
