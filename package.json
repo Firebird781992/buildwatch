@@ -42,7 +42,7 @@
     "nightwatch": "^0.9.12",
     "nock": "^9.0.2",
     "nyc": "^10.0.0",
-    "standard": "^8.6.0"
+    "standard": "^9.0.2"
   },
   "standard": {
     "globals": [
