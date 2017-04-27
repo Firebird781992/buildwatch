@@ -24,3 +24,4 @@ function testGoogle (browser) {
 module.exports = {
   'Demo test Google': testGoogle
 }
+
